@@ -1,0 +1,30 @@
+# Logs e Dependências
+node_modules/
+.pnp
+.pnp.js
+dist/
+dist-ssr/
+*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+
+# Variáveis de Ambiente e Segredos
+.env
+.env.*
+!.env.example
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Vercel
+.vercel

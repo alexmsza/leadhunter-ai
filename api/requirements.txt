@@ -1,0 +1,13 @@
+PyJWT==2.8.0
+fastapi
+uvicorn[standard]
+python-dotenv
+passlib[bcrypt]
+python-jose[cryptography]
+pydantic
+pandas
+Jinja2
+python-multipart
+SQLAlchemy
+PyMySQL
+requests
