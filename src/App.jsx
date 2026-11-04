@@ -9,6 +9,7 @@ import ProfilePage from "./pages/Profile";
 import { HistoryPage } from "./pages/History";
 import Index from "./pages/Index";
 import LegalPage from "./pages/Legal";
+import LandingPage from "./pages/LandingPage";
 
 export default function App() {
   return (
@@ -16,7 +17,10 @@ export default function App() {
       <AuthProvider>
         <Toaster />
         <Routes>
-          {/* Rotas Públicas */}
+          {/* Rota Pública Principal: Home / Landing Page */}
+          <Route path="/" element={<LandingPage />} />
+
+          {/* Rotas Públicas de Acesso e Governança */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/leadhunter/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -24,9 +28,9 @@ export default function App() {
           <Route path="/termos" element={<LegalPage />} />
           <Route path="/privacidade" element={<LegalPage />} />
 
-          {/* Rotas Protegidas da Plataforma LeadHunter AI */}
+          {/* Rotas Protegidas da Plataforma LeadHunter.ai */}
           <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<Index />} />
+            <Route path="/app" element={<Index />} />
             <Route path="/leadhunter" element={<Index />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/leadhunter/profile" element={<ProfilePage />} />
@@ -34,7 +38,7 @@ export default function App() {
             <Route path="/leadhunter/history" element={<HistoryPage />} />
           </Route>
 
-          {/* Fallback inteligente */}
+          {/* Fallback inteligente para a Home Page */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AuthProvider>

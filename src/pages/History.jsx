@@ -229,7 +229,7 @@ export const HistoryPage = () => {
                   Execute sua primeira prospecção com verificação forense para gerar histórico auditável.
                 </p>
               </div>
-              <Link to="/" className="btn-primary text-xs py-2 px-4 inline-flex">
+              <Link to="/app" className="btn-primary text-xs py-2 px-4 inline-flex">
                 Iniciar Nova Busca
               </Link>
             </div>

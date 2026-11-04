@@ -27,7 +27,7 @@ export const LoginPage = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/');
+      navigate('/app');
     }
   }, [isAuthenticated, navigate]);
 
@@ -65,7 +65,7 @@ export const LoginPage = () => {
         title: 'Acesso Autorizado',
         description: 'Sessão iniciada com sucesso.',
       });
-      navigate('/');
+      navigate('/app');
     } catch (error) {
       toast({
         title: 'Falha na Autenticação',

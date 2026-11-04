@@ -24,14 +24,14 @@ export const Layout = ({ children }) => {
   };
 
   const navLinks = [
-    { href: '/', label: 'Busca Inteligente', icon: Search },
+    { href: '/app', label: 'Busca Inteligente', icon: Search },
     { href: '/history', label: 'Histórico Forense', icon: History },
     { href: '/profile', label: 'Meu Perfil', icon: User },
   ];
 
   const isCurrentPath = (path) => {
-    if (path === '/') {
-      return location.pathname === '/' || location.pathname === '/leadhunter';
+    if (path === '/app') {
+      return location.pathname === '/app' || location.pathname === '/leadhunter';
     }
     return location.pathname === path || location.pathname === `/leadhunter${path}`;
   };
@@ -44,7 +44,7 @@ export const Layout = ({ children }) => {
           <div className="flex items-center justify-between">
             {/* Logo e Branding */}
             <div className="flex items-center gap-3">
-              <Link to="/" className="flex items-center gap-3 group">
+              <Link to="/app" className="flex items-center gap-3 group">
                 <Logo variant="full" />
               </Link>
             </div>
@@ -127,11 +127,11 @@ export const Layout = ({ children }) => {
       </header>
 
       {/* Sub-header / Breadcrumbs */}
-      {isAuthenticated && location.pathname !== '/' && location.pathname !== '/leadhunter' && (
+      {isAuthenticated && location.pathname !== '/app' && location.pathname !== '/leadhunter' && (
         <div className="bg-white/60 border-b border-slate-200/60 py-2.5">
           <div className="container mx-auto px-4 sm:px-6 flex items-center gap-2 text-xs font-medium text-slate-500">
-            <Link to="/" className="hover:text-slate-900 transition-colors">
-              LeadHunter
+            <Link to="/app" className="hover:text-slate-900 transition-colors">
+              Painel
             </Link>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
             <span className="text-slate-800 font-semibold">
