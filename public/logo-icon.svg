@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="lhIconBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+    <linearGradient id="lhCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#0284C7" />
+    </linearGradient>
+    <radialGradient id="lhCenterGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#0284C7" stop-opacity="0" />
+    </radialGradient>
+    <filter id="lhShadow" x="-10%" y="-10%" width="120%" height="120%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#000000" flood-opacity="0.3" />
+    </filter>
+  </defs>
+
+  <!-- Base Container com Borda Sutil -->
+  <rect width="512" height="512" rx="112" fill="url(#lhIconBg)" filter="url(#lhShadow)" />
+  <rect x="4" y="4" width="504" height="504" rx="108" stroke="#334155" stroke-width="6" />
+
+  <!-- Círculos de Radar / Retículo -->
+  <circle cx="256" cy="256" r="160" stroke="#1E293B" stroke-width="8" />
+  <circle cx="256" cy="256" r="112" stroke="url(#lhCyan)" stroke-width="12" stroke-dasharray="24 16" />
+  <circle cx="256" cy="256" r="56" stroke="#38BDF8" stroke-width="8" />
+
+  <!-- Eixos de Alinhamento (Crosshairs) -->
+  <line x1="256" y1="64" x2="256" y2="120" stroke="#38BDF8" stroke-width="16" stroke-linecap="round" />
+  <line x1="256" y1="392" x2="256" y2="448" stroke="#38BDF8" stroke-width="16" stroke-linecap="round" />
+  <line x1="64" y1="256" x2="120" y2="256" stroke="#38BDF8" stroke-width="16" stroke-linecap="round" />
+  <line x1="392" y1="256" x2="448" y2="256" stroke="#38BDF8" stroke-width="16" stroke-linecap="round" />
+
+  <!-- Núcleo Central de Precisão IA -->
+  <circle cx="256" cy="256" r="36" fill="url(#lhCenterGlow)" />
+  <circle cx="256" cy="256" r="18" fill="#FFFFFF" />
+
+  <!-- Badge de Veracidade Forense (Zero-Trust Verified) -->
+  <circle cx="366" cy="146" r="34" fill="#10B981" />
+  <circle cx="366" cy="146" r="38" stroke="#0F172A" stroke-width="8" />
+  <path d="M352 146L362 156L382 136" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { Logo } from './Logo';
 import {
   Search,
   History,
@@ -44,20 +45,7 @@ export const Layout = ({ children }) => {
             {/* Logo e Branding */}
             <div className="flex items-center gap-3">
               <Link to="/" className="flex items-center gap-3 group">
-                <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center shadow-soft group-hover:bg-slate-800 transition-colors">
-                  <Target className="w-5 h-5 text-sky-400" />
-                </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg font-bold text-slate-900 tracking-tight">LeadHunter</span>
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200">
-                      Zero-Trust
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-500 font-medium hidden sm:block">
-                    Inteligência & Auditoria Forense B2B
-                  </p>
-                </div>
+                <Logo variant="full" />
               </Link>
             </div>
 

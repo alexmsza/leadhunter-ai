@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../hooks/use-toast';
 import ContactForm from '../components/ContactForm';
+import { Logo } from '../components/Logo';
 import { API_BASE_URL } from '../config/api.js';
 import {
-  Target,
   LogIn,
   Mail,
   Lock,
@@ -98,12 +98,15 @@ export const LoginPage = () => {
 
         {/* Brand Hero */}
         <div className="text-center space-y-3 pt-4">
-          <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center mx-auto shadow-soft">
-            <Target className="w-6 h-6 text-sky-400" />
+          <Logo variant="icon" size="lg" className="mx-auto" />
+          <div className="flex items-center justify-center gap-2">
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+              LeadHunter
+            </h1>
+            <span className="text-sm font-black uppercase tracking-wider px-2 py-0.5 rounded-lg bg-slate-900 text-sky-400">
+              .ai
+            </span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
-            LeadHunter AI
-          </h1>
           <p className="text-sm text-slate-600 max-w-md mx-auto">
             Plataforma Corporativa de Inteligência & Auditoria Forense de Leads B2B.
           </p>
