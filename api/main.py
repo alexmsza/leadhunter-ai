@@ -370,9 +370,36 @@ app = FastAPI(
 )
 
 
+def seed_initial_users():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT count(*) as count FROM users")
+    if cursor.fetchone()["count"] == 0:
+        default_users = [
+            ("consultor.teste@empresa.com.br", "SenhaSegura123!"),
+            ("admin@leadhunter.ai", "Admin@123456"),
+            ("alex@sousza.com", "Sousza@2026"),
+        ]
+        for email, pw in default_users:
+            hashed = get_password_hash(pw)
+            cursor.execute(
+                "INSERT OR IGNORE INTO users (email, hashed_password) VALUES (?, ?)",
+                (email, hashed),
+            )
+            uid = cursor.lastrowid
+            cursor.execute(
+                "INSERT OR IGNORE INTO user_profiles (user_id, email, company_name) VALUES (?, ?, ?)",
+                (uid, email, "Sousza Consultoria"),
+            )
+        conn.commit()
+        print("[Seed] Contas corporativas padrao semeadas no banco com sucesso.")
+    conn.close()
+
+
 @app.on_event("startup")
 def on_startup():
     init_db()
+    seed_initial_users()
 
 
 # CORS para suportar Vite (5173), Next (3000) e deploy
