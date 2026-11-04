@@ -2,7 +2,16 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from '../hooks/use-toast';
 import ContactForm from '../components/ContactForm';
-import { API_BASE_URL } from '../../config/api.js';
+import { API_BASE_URL } from '../config/api.js';
+import {
+  Target,
+  UserPlus,
+  Mail,
+  Lock,
+  ArrowLeft,
+  ShieldCheck,
+  CheckCircle2,
+} from 'lucide-react';
 
 export const RegisterPage = () => {
   const { toast } = useToast();
@@ -11,250 +20,215 @@ export const RegisterPage = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (formData.password !== formData.confirmPassword) {
-      toast({ 
-        title: 'Erro', 
-        description: 'As senhas não coincidem.', 
-        variant: 'destructive' 
+      toast({
+        title: 'Senhas divergentes',
+        description: 'A confirmação de senha deve ser idêntica à senha informada.',
+        variant: 'destructive',
       });
       return;
     }
 
     if (formData.password.length < 6) {
-      toast({ 
-        title: 'Erro', 
-        description: 'A senha deve ter pelo menos 6 caracteres.', 
-        variant: 'destructive' 
+      toast({
+        title: 'Senha insegura',
+        description: 'A senha deve conter no mínimo 6 caracteres.',
+        variant: 'destructive',
       });
       return;
     }
 
     setIsLoading(true);
-    
+
     try {
       const response = await fetch(`${API_BASE_URL}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email: formData.email,
-          password: formData.password
+          email: formData.email.trim(),
+          password: formData.password,
         }),
       });
 
       if (!response.ok) {
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.indexOf("application/json") !== -1) {
-          const errorData = await response.json();
-          throw new Error(errorData.detail || 'Falha ao registrar.');
-        } else {
-          throw new Error(`Erro no servidor: ${response.status} ${response.statusText}`);
-        }
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || 'Falha ao processar o cadastro.');
       }
 
-      toast({ 
-        title: 'Registro bem-sucedido!', 
-        description: 'Você já pode fazer login.', 
-        variant: 'success' 
+      toast({
+        title: 'Cadastro Realizado',
+        description: 'Sua conta foi criada. Acesse a plataforma.',
       });
-      navigate('/leadhunter/login');
-
+      navigate('/login');
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Ocorreu um erro desconhecido.';
-      toast({ 
-        title: 'Erro no Registro', 
-        description: errorMessage, 
-        variant: 'destructive' 
+      toast({
+        title: 'Erro no Registro',
+        description: error instanceof Error ? error.message : 'Tente novamente.',
+        variant: 'destructive',
       });
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleBackToMain = () => {
-    navigate('/');
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 flex flex-col items-center justify-center p-4">
-      {/* Botão de voltar */}
-      <div className="w-full max-w-6xl mb-6">
-        <button
-          onClick={handleBackToMain}
-          className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors p-2 rounded-lg hover:bg-white/50"
-        >
-          <span className="text-2xl">←</span>
-          <span className="font-medium">Voltar ao site principal</span>
-        </button>
-      </div>
+    <div className="min-h-dvh bg-slate-50 flex flex-col justify-between p-4 sm:p-6 lg:p-10 font-sans">
+      <div className="max-w-6xl w-full mx-auto space-y-8">
+        {/* Top Header / Back */}
+        <div className="flex items-center justify-between">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Voltar ao início</span>
+          </Link>
 
-      <div className="w-full max-w-6xl space-y-8">
-        <div className="text-center">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-white text-2xl font-bold">🎯</span>
-            </div>
-            <div>
-              <h1 className="text-4xl font-bold text-gray-800">LeadHunter AI</h1>
-              <p className="text-gray-600 font-medium">Crie sua conta e comece a gerar leads</p>
-            </div>
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 text-[11px] font-bold text-slate-700 uppercase tracking-wider">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Conformidade LGPD & Zero-Trust</span>
           </div>
         </div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Formulário de Registro */}
-          <div className="bg-white rounded-xl shadow-lg border border-gray-200">
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-800">Criar Conta Gratuita</h2>
-              <p className="text-gray-600 mt-1">Registre-se e comece a usar hoje mesmo</p>
+
+        {/* Brand Hero */}
+        <div className="text-center space-y-3 pt-4">
+          <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center mx-auto shadow-soft">
+            <Target className="w-6 h-6 text-sky-400" />
+          </div>
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+            Criar Conta Corporativa
+          </h1>
+          <p className="text-sm text-slate-600 max-w-md mx-auto">
+            Habilite sua empresa para prospectar leads B2B qualificados com validação forense.
+          </p>
+        </div>
+
+        {/* 2-Column Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start max-w-5xl mx-auto">
+          {/* Card de Registro */}
+          <div className="card p-6 sm:p-8 space-y-6">
+            <div className="border-b border-slate-100 pb-4">
+              <h2 className="text-xl font-bold tracking-tight text-slate-900">
+                Cadastro Institucional
+              </h2>
+              <p className="text-xs text-slate-500 mt-1">
+                Preencha os campos abaixo para obter acesso à plataforma.
+              </p>
             </div>
-            <div className="p-6">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="seu@email.com"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    required
-                  />
-                </div>
 
-                <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                    Senha
-                  </label>
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    placeholder="Mínimo 6 caracteres"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    required
-                    minLength={6}
-                  />
-                </div>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                  <Mail className="w-3.5 h-3.5 text-slate-500" />
+                  E-mail Corporativo
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="seu@empresa.com.br"
+                  className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all"
+                  required
+                />
+              </div>
 
-                <div>
-                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
-                    Confirmar Senha
-                  </label>
-                  <input
-                    type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    placeholder="Confirme sua senha"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    required
-                  />
-                </div>
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                  <Lock className="w-3.5 h-3.5 text-slate-500" />
+                  Senha (mínimo 6 caracteres)
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="••••••••"
+                  className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all"
+                  required
+                />
+              </div>
 
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                  <Lock className="w-3.5 h-3.5 text-slate-500" />
+                  Confirmar Senha
+                </label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="••••••••"
+                  className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all"
+                  required
+                />
+              </div>
+
+              <p className="text-[11px] text-slate-500 leading-relaxed">
+                Ao criar sua conta, você concorda com nossos{' '}
+                <Link to="/termos" className="text-slate-900 underline font-semibold">
+                  Termos de Uso
+                </Link>{' '}
+                e com a nossa{' '}
+                <Link to="/privacidade" className="text-slate-900 underline font-semibold">
+                  Política de Privacidade (LGPD)
+                </Link>.
+              </p>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="btn-primary w-full py-2.5 text-xs font-semibold flex items-center justify-center gap-2"
+              >
+                {isLoading ? (
+                  <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <>
+                    <UserPlus className="w-4 h-4 text-sky-400" />
+                    <span>Criar Conta & Iniciar</span>
+                  </>
+                )}
+              </button>
+            </form>
+
+            <div className="pt-4 border-t border-slate-100 text-center">
+              <p className="text-xs text-slate-600">
+                Já possui cadastro?{' '}
+                <Link
+                  to="/login"
+                  className="font-bold text-slate-900 hover:underline"
                 >
-                  {isLoading ? (
-                    <div className="flex items-center justify-center">
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                      Registrando...
-                    </div>
-                  ) : (
-                    '🚀 Criar Conta Gratuita'
-                  )}
-                </button>
-              </form>
-
-              <div className="mt-6 text-center">
-                <p className="text-sm text-gray-600">
-                  Já tem uma conta?{' '}
-                  <Link 
-                    to="/leadhunter/login" 
-                    className="text-blue-600 hover:text-blue-800 font-semibold hover:underline"
-                  >
-                    Fazer Login
-                  </Link>
-                </p>
-              </div>
-
-              <div className="mt-6 pt-6 border-t border-gray-200">
-                <p className="text-center text-xs text-gray-500">
-                  Ao criar uma conta, você concorda com nossos{' '}
-                  <Link to="/termos" className="text-blue-600 hover:text-blue-700 underline">
-                    Termos de Uso
-                  </Link>{' '}
-                  e{' '}
-                  <Link to="/privacidade" className="text-blue-600 hover:text-blue-700 underline">
-                    Política de Privacidade
-                  </Link>
-                </p>
-              </div>
+                  Fazer login
+                </Link>
+              </p>
             </div>
           </div>
 
-          {/* Formulário de Contato */}
+          {/* Contact Card */}
           <ContactForm />
         </div>
-
-        {/* Seção de vantagens */}
-        <div className="bg-white rounded-xl shadow-lg p-8 mt-8">
-          <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-            🎁 O que você ganha com o LeadHunter AI?
-          </h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="text-center">
-              <div className="text-4xl mb-3">🆓</div>
-              <h4 className="font-semibold text-gray-800 mb-2">Gratuito</h4>
-              <p className="text-gray-600 text-sm">
-                Comece a usar sem pagar nada
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl mb-3">🤖</div>
-              <h4 className="font-semibold text-gray-800 mb-2">IA Poderosa</h4>
-              <p className="text-gray-600 text-sm">
-                Algoritmos que realmente funcionam
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl mb-3">📊</div>
-              <h4 className="font-semibold text-gray-800 mb-2">Histórico</h4>
-              <p className="text-gray-600 text-sm">
-                Acompanhe todas suas buscas
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl mb-3">💼</div>
-              <h4 className="font-semibold text-gray-800 mb-2">Profissional</h4>
-              <p className="text-gray-600 text-sm">
-                Ferramenta para vendedores sérios
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
+
+      {/* Footer */}
+      <footer className="text-center text-xs text-slate-400 mt-12 py-4">
+        LeadHunter AI &copy; {new Date().getFullYear()} &mdash; Plataforma Corporativa de Prospecção.
+      </footer>
     </div>
   );
 };
+
+export default RegisterPage;

@@ -8,6 +8,7 @@ import { RegisterPage } from "./pages/Register";
 import ProfilePage from "./pages/Profile";
 import { HistoryPage } from "./pages/History";
 import Index from "./pages/Index";
+import LegalPage from "./pages/Legal";
 
 export default function App() {
   return (
@@ -17,16 +18,23 @@ export default function App() {
         <Routes>
           {/* Rotas Públicas */}
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/leadhunter/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/leadhunter/register" element={<RegisterPage />} />
+          <Route path="/termos" element={<LegalPage />} />
+          <Route path="/privacidade" element={<LegalPage />} />
 
           {/* Rotas Protegidas da Plataforma LeadHunter AI */}
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<Index />} />
+            <Route path="/leadhunter" element={<Index />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/leadhunter/profile" element={<ProfilePage />} />
             <Route path="/history" element={<HistoryPage />} />
+            <Route path="/leadhunter/history" element={<HistoryPage />} />
           </Route>
 
-          {/* Fallback de redirecionamento */}
+          {/* Fallback inteligente */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AuthProvider>

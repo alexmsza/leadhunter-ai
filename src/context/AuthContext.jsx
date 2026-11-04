@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     localStorage.removeItem('authToken');
     // Redirecionar para a página de login
-    window.location.href = '/leadhunter/login';
+    window.location.href = '/login';
   };
 
   const isAuthenticated = !!token;

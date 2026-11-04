@@ -7,5 +7,5 @@ export const ProtectedRoute = () => {
 
   // Se estiver autenticado, renderiza o conteúdo da rota filha (Outlet)
   // Caso contrário, redireciona para a página de login
-  return isAuthenticated ? <Outlet /> : <Navigate to="/leadhunter/login" />;
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
 };

@@ -1,0 +1,6 @@
+// Configuração centralizada da URL da API
+export const API_BASE_URL = (
+  import.meta.env?.VITE_API_URL || 'http://localhost:8000/api'
+).replace(/\/+$/, '');
+
+export default API_BASE_URL;

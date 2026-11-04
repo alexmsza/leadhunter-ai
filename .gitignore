@@ -15,6 +15,11 @@ venv/
 ENV/
 env/
 
+# Bancos de Dados Locais
+*.db
+*.db-shm
+*.db-wal
+
 # Variáveis de Ambiente e Segredos
 .env
 .env.*

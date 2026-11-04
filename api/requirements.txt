@@ -1,10 +1,12 @@
-PyJWT==2.8.0
 fastapi
 uvicorn[standard]
 python-dotenv
 passlib[bcrypt]
+bcrypt
 python-jose[cryptography]
 pydantic
+pydantic[email]
+email-validator
 pandas
 Jinja2
 python-multipart
